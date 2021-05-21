@@ -4,6 +4,47 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <!-- <meta http-equiv="content-security-policy" content="default-src 'self'"> -->
 
+<style>
+	table {
+		font-size: 19px;
+		border-collapse: collapse;
+		width: auto;
+		display: inline-block;
+		margin-left: 5px;
+	}
+
+	th {
+		column-span: all;
+	}
+
+	th,
+	td {
+		text-align: left;
+		padding: 5px;
+		border: 1px solid black;
+	}
+
+	.covaxin {
+		background-color: #65d4be8c;
+	}
+
+	.covishield {
+		background-color: #fff17285;
+	}
+
+	.sputnik {
+		background-color: #da242485;
+	}
+
+	.space {
+		margin-left: 25px;
+	}
+
+	select option[disabled] {
+		background-color: #80808066;
+	}
+</style>
+
 <script>
 	function writeError(message) {
 		divResult.innerHTML += '<br/><br/><br/><br/><br/><h1>' + districtSelector.selectedOptions[0].text + ': ' + message + '</h1>';
@@ -126,43 +167,27 @@
 			});
 		}
 	}
+
+	function updateMessages() {
+		const msgs = [
+			"Support for 'Sputnik V' is not updated yet. Kindly use 'All' option for 'Vaccine'."
+			, "Preferences are auto saved except for 'Audio'."
+			, "Support for Pin Code based search will come in some days."
+		]
+
+		let ol = document.createElement("OL");
+		ol.setAttribute("id", "messages");
+		ol.setAttribute("style", "margin-top: 5px;");
+		divMessage.appendChild(ol);
+
+		msgs.forEach(msg => {
+			var li = document.createElement("LI");
+			var msgText = document.createTextNode(msg);
+			li.appendChild(msgText);
+			ol.appendChild(li);
+		});
+	}
 </script>
-<style>
-	table {
-		font-size: 19px;
-		border-collapse: collapse;
-		width: auto;
-		display: inline-block;
-		margin-left: 5px;
-	}
-
-	th {
-		column-span: all;
-	}
-
-	th,
-	td {
-		text-align: left;
-		padding: 5px;
-		border: 1px solid black;
-	}
-
-	.covaxin {
-		background-color: #65d4be8c;
-	}
-
-	.covishield {
-		background-color: #fff17285;
-	}
-
-	.sputnik {
-		background-color: #da242485;
-	}
-
-	.space {
-		margin-left: 25px;
-	}
-</style>
 
 <body style="font-size: 20px;">
 
@@ -196,7 +221,7 @@
 		<option value="ALL" selected>All</option>
 		<option value="COVISHIELD">Covishield</option>
 		<option value="COVAXIN">Covaxin</option>
-		<option value="SPUTNIK">Sputnik V</option>
+		<option value="SPUTNIK" disabled>Sputnik V</option>
 	</select>
 
 	<input type="checkbox" id="toggleAudio" name="toggleAudio" class="space"
@@ -220,6 +245,7 @@
 	<hr />
 
 	<div id="divResult"></div>
+	<div id="divMessage" style="margin-top: 25px;">Messages: </div>
 </body>
 <script>
 	var defaultRefreshTime = 5;		//seconds
@@ -240,6 +266,9 @@
 	var refreshTimeTextBox = document.getElementById("refreshTime");
 
 	var divResult = document.getElementById("divResult");
+
+	var divMessage = document.getElementById("divMessage");
+	updateMessages();
 
 	function updateTime() {
 		let num = Number(refreshTimeTextBox.value);
