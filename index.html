@@ -216,11 +216,20 @@
 	<hr />
 
 	<div id="divResult"></div>
+
+	<audio controls preload="none" style="display: none;" id="startStopAudio">
+		<source src="./startStopAudio.mp3" type="audio/mpeg">
+	</audio>
+
+	<audio controls preload="none" style="display: none;" id="slotFound">
+		<source src="./slotFound.mp3" type="audio/mpeg">
+	</audio>
 </body>
 <script>
 	var defaultRefreshTime = 5;		//seconds
-	var startStopAudio = new Audio('./toggleAudio.mp3');
-	var slotFoundAudio = new Audio('./slotFound.mp3');
+	
+	var startStopAudio = document.getElementById('startStopAudio');
+	var slotFound = document.getElementById('slotFound');
 
 	var stateSelector = document.getElementById("stateSelector");
 	var districtSelector = document.getElementById("districtSelector");
