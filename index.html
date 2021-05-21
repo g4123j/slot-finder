@@ -46,6 +46,9 @@
 					else if (element['Vaccine'] == 'COVISHIELD') {
 						row.className = 'covishield';
 					}
+					else if (element['Vaccine'] == 'SPUTNIK') {
+						row.className = 'sputnik';
+					}
 				}
 			}
 			return table;
@@ -73,8 +76,9 @@
 		localStorage.setItem('refreshTime', refreshTimeTextBox.value);
 	}
 
-	function loadPreferences() {
+	async function loadPreferences() {
 		localStorage.getItem('state') && (stateSelector.value = localStorage.getItem('state'));
+		await updateDistricts();
 		localStorage.getItem('district') && (districtSelector.value = localStorage.getItem('district'));
 		localStorage.getItem('age') && (ageSelector.value = localStorage.getItem('age'));
 		localStorage.getItem('dose') && (doseSelector.value = localStorage.getItem('dose'));
@@ -147,6 +151,10 @@
 		background-color: #fff17285;
 	}
 
+	.sputnik {
+		background-color: #da242485;
+	}
+
 	.space {
 		margin-left: 25px;
 	}
@@ -174,8 +182,8 @@
 
 	<label for="doseSelector" class="space">Dose: </label>
 	<select id="doseSelector" onchange="startSearching();">
-		<option value="0">General</option>
-		<option value="1" selected>Dose 1</option>
+		<option value="0" selected>General</option>
+		<option value="1">Dose 1</option>
 		<option value="2">Dose 2</option>
 	</select>
 
@@ -184,6 +192,7 @@
 		<option value="ALL" selected>All</option>
 		<option value="COVISHIELD">Covishield</option>
 		<option value="COVAXIN">Covaxin</option>
+		<option value="SPUTNIK">Sputnik V</option>
 	</select>
 
 	<input type="checkbox" id="toggleAudio" name="toggleAudio" class="space"
@@ -239,9 +248,10 @@
 	var refreshCycle;
 
 	fillStates().then(() => {
-		loadPreferences();
-		toggleSort();
-		updateTime();
+		loadPreferences().then(() => {
+			toggleSort();
+			updateTime();
+		});
 	});
 
 	function startSearching() {
