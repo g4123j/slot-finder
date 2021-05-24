@@ -168,7 +168,7 @@
 					<label for="refreshTime" class="space">Auto Refresh in: </label>
 				</td>
 				<td>
-					<input type="number" id="refreshTime" name="refreshTime" value="5" min="1" style="width: 75px;"
+					<input type="number" id="refreshTime" name="refreshTime" value="5" min="3" style="width: 75px;"
 						onchange="updateTime()">
 					<label for="refreshTime" class="space"> seconds</label>
 				</td>
@@ -190,10 +190,17 @@
 				</td>
 			</tr>
 			<tr>
-				<td colspan="2">
+				<td>
 					<input type="checkbox" id="toggleAudio" name="toggleAudio" class="space"
-						onclick="startStopAudio.play();startSearching();">
+						onclick="toggleAudioClicked(this.checked);startSearching();">
 					<label for="toggleAudio">Audio</label>
+				</td>
+				<td>
+					<select disabled id="customAudio" onchange="uploadAudio();startSearching();">
+						<option value="defaultAudio" selected>Default</option>
+						<option value="userAudio">Choose audio</option>
+					</select>
+					<input type="file" id="userFile" style="display:none;" accept="audio/mp3,audio/*" />
 				</td>
 			</tr>
 		</table>
@@ -385,10 +392,10 @@
 	let mySideNav = document.getElementById("mySidenav");
 
 	function openNav() {
-		if (mySideNav.style.width == '525px') {
+		if (mySideNav.style.width == '550px') {
 			closeNav();
 		} else {
-			mySideNav.style.width = "525px";
+			mySideNav.style.width = "550px";
 			mySideNav.style.height = "auto";
 			mySideNav.style.border = '1px solid black';
 		}
@@ -423,6 +430,39 @@
 		}
 	}
 
+	function toggleAudioClicked(started = false) {
+		startStopAudio.play();
+		customAudio.disabled = !started;
+	}
+
+	var userFile = document.getElementById('userFile');
+	userFile.addEventListener("change", handleFiles, false);
+	function uploadAudio() {
+		if (customAudio.value == 'userAudio') {
+			userFile.click();
+		}
+		else {
+			slotFoundAudio = new Audio('https://mobcup.net/va/3333afbbf22897e2953914da36fd741eb');
+			userFile.value = '';
+		}
+	}
+
+	function handleFiles(event) {
+		var files = event.target.files;
+		if (files.length > 0) {
+			if (files[0].type.split('/')[0] == 'audio') {
+				slotFoundAudio.src = URL.createObjectURL(files[0]);
+				slotFoundAudio.load();
+			}
+			else {
+				customAudio.value == 'defaultAudio';
+			}
+		}
+		else {
+			customAudio.value == 'defaultAudio';
+		}
+	}
+
 </script>
 
 <script>
@@ -453,6 +493,8 @@
 
 	var searchByPIN = document.getElementById('PIN');
 	var searchByDistrict = document.getElementById('DISTRICT');
+
+	var customAudio = document.getElementById('customAudio');
 
 	function updateTime() {
 		let num = Number(refreshTimeTextBox.value);
@@ -513,7 +555,7 @@
 			const data = await callURL(searchURL);
 
 			let slots = [];
-			if (data.centers) {
+			if (data && data.centers) {
 				let counter = 1;
 				data.centers.forEach((center) => {
 					center.sessions.sort((a, b) => { new Date(a.date) - new Date(b.date) })
