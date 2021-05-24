@@ -224,6 +224,9 @@ function toggleAudioClicked(started = false) {
 
 var userFile = document.getElementById('userFile');
 userFile.addEventListener("change", handleFiles, false);
+
+var userFileName = document.getElementById('userFileName');
+
 function uploadAudio() {
     if (customAudio.value == 'userAudio') {
         userFile.click();
@@ -231,6 +234,7 @@ function uploadAudio() {
     else {
         slotFoundAudio = new Audio('https://mobcup.net/va/3333afbbf22897e2953914da36fd741eb');
         userFile.value = '';
+        userFileName.innerText = '';
     }
 }
 
@@ -240,12 +244,15 @@ function handleFiles(event) {
         if (files[0].type.split('/')[0] == 'audio') {
             slotFoundAudio.src = URL.createObjectURL(files[0]);
             slotFoundAudio.load();
+            userFileName.innerText = files[0].name;
         }
         else {
             customAudio.value == 'defaultAudio';
+            userFileName.innerText = '';
         }
     }
     else {
         customAudio.value == 'defaultAudio';
+        userFileName.innerText = '';
     }
 }
