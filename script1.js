@@ -55,7 +55,7 @@ function generateTable(parent, data) {
                 else if (element['Vaccine'] == 'COVISHIELD') {
                     row.className = 'covishield';
                 }
-                else if (element['Vaccine'] == 'SPUTNIK') {
+                else if (element['Vaccine'] == 'SPUTNIK V') {
                     row.className = 'sputnik';
                 }
             }
@@ -158,9 +158,10 @@ async function updateDistricts() {
 
 function updateMessages() {
     const msgs = [
-        "'Search by PIN' option is now available."
-        , "Support for 'Sputnik V' is not updated yet. Kindly use 'All' option for 'Vaccine'."
+        "Click/Tap outside to hide 'Search Criteria' box."
+        // , "Support for 'Sputnik V' is not updated yet. Kindly use 'All' option for 'Vaccine'."
         , "Preferences are auto saved except for 'Audio'."
+        // , "If you get any help from this site, please donate something (to eat) to the needy people. You can have a look at link below, we do donate :). "
     ]
 
     let ol = document.createElement("OL");
@@ -174,6 +175,14 @@ function updateMessages() {
         li.appendChild(msgText);
         ol.appendChild(li);
     });
+
+    let a = document.createElement('a');
+    let link = document.createTextNode("Donation Pics");
+    a.appendChild(link);
+    a.title = "Donation Pictures";
+    a.href = "./donate.html";
+    a.target = "_blank";
+    //ol.children[ol.children.length - 1].appendChild(a);
 }
 
 let mySideNav = document.getElementById("mySidenav");

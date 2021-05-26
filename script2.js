@@ -33,6 +33,7 @@ function updateTime() {
     refreshTime = (isNaN(num) ? defaultRefreshTime : (num > 0 ? num : defaultRefreshTime));
     refreshTimeTextBox.value = refreshTime;
     refreshTime *= 1000;
+    openNav();
     startSearching();
 }
 

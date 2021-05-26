@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<title>Donation Page</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+    .mySlides {
+        display: none;
+    }
+</style>
+
+<body>
+
+    <h2 class="w3-center">We do donate</h2>
+    <h6 class="w3-center">Use arrow keys in laptop/desktop or Swipe left/right in mobile/tablet to navigate.</h6>
+    <h3 class="w3-center" id="description"></h3>
+
+    <div class="w3-content w3-display-container">
+        <img class="mySlides" src="images/donation/2020/image(1).jpeg" style="width:100%"
+            description="Donation Drive 2020 for Migrant Workers">
+        <img class="mySlides" src="images/donation/2020/image(3).jpeg" style="width:100%" description="Atta packets">
+        <img class="mySlides" src="images/donation/2020/image(5).jpeg" style="width:100%"
+            description="Biscuit packets and basic ingredients">
+        <img class="mySlides" src="images/donation/2020/image(6).jpeg" style="width:100%"
+            description="Salty Aalu ki Sabji">
+
+        <img class="mySlides" src="images/donation/2020/image(8).jpeg" style="width:100%"
+            description="Sweet Halwa to kill hunger">
+        <img class="mySlides" src="images/donation/2020/image(9).jpeg" style="width:100%" description="Ready to go...">
+
+        <img class="mySlides" src="images/donation/2021/image(1).jpeg" style="width:100%"
+            description="Donation Drive 2021 for Slum areas">
+        <img class="mySlides" src="images/donation/2021/image(4).jpeg" style="width:100%"
+            description="Unofficial NGO member (Annu Joshi)">
+        <img class="mySlides" src="images/donation/2021/image(3).jpeg" style="width:100%"
+            description="Atta packets, Ready to go...">
+        <img class="mySlides" src="images/donation/2021/image(2).jpeg" style="width:100%"
+            description="Check the Basti (slum) in the background">
+
+        <!-- <video class="mySlides" controls autoplay style="width:100%">
+            <source src="images/donation/2021/video(1).mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>  -->
+
+        <button class="w3-button w3-black w3-display-left" onclick="plusDivs(-1)">&#10094;</button>
+        <button class="w3-button w3-black w3-display-right" onclick="plusDivs(1)">&#10095;</button>
+    </div>
+
+    <script>
+        var description = document.getElementById('description');
+
+        var slideIndex = 1;
+        showDivs(slideIndex);
+
+        function plusDivs(n) {
+            showDivs(slideIndex += n);
+        }
+
+        function showDivs(n) {
+            var i;
+            var x = document.getElementsByClassName("mySlides");
+            if (n > x.length) { slideIndex = 1 }
+            if (n < 1) { slideIndex = x.length }
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            x[slideIndex - 1].style.display = "block";
+            if (x[slideIndex - 1].hasAttributes('description') && x[slideIndex - 1].hasAttributes('description') != '') {
+                description.innerText = x[slideIndex - 1].attributes['description'].value;
+            } else {
+                description.innerText = '';
+            }
+        }
+
+        document.onkeydown = function (e) {
+            switch (e.which) {
+                case 37: // left
+                    plusDivs(-1);
+                    break;
+
+                case 39: // right
+                    plusDivs(1);
+                    break;
+
+
+                default: return; // exit this handler for other keys
+            }
+            e.preventDefault(); // prevent the default action (scroll / move caret)
+        };
+
+        (function () {
+            var min_horizontal_move = 30;
+            var max_vertical_move = 30;
+            var within_ms = 1000;
+
+            var start_xPos;
+            var start_yPos;
+            var start_time;
+            function touch_start(event) {
+                start_xPos = event.touches[0].pageX;
+                start_yPos = event.touches[0].pageY;
+                start_time = new Date();
+            }
+
+
+            function touch_end(event) {
+                var end_xPos = event.changedTouches[0].pageX;
+                var end_yPos = event.changedTouches[0].pageY;
+                var end_time = new Date();
+                let move_x = end_xPos - start_xPos;
+                let move_y = end_yPos - start_yPos;
+                let elapsed_time = end_time - start_time;
+                if (Math.abs(move_x) > min_horizontal_move && Math.abs(move_y) < max_vertical_move && elapsed_time < within_ms) {
+                    if (move_x < 0) {
+                        plusDivs(-1);
+                    } else {
+                        plusDivs(1);
+                    }
+                }
+            }
+
+            document.addEventListener('touchstart', touch_start);
+            document.addEventListener('touchend', touch_end);
+
+        })();
+    </script>
+
+</body>
+
+</html>
